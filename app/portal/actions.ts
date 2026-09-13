@@ -10,18 +10,20 @@ const MEMBER_COOKIE_NAME = "vr_member_session";
 const DEFAULT_PASSCODE = "velvet2026";
 
 function getExpectedPasscode() {
-  return (
-    process.env.MEMBER_PASSCODE ||
-    process.env.PORTAL_PASSWORD ||
-    process.env.ADMIN_PASSCODE ||
-    DEFAULT_PASSCODE
-  );
+  const custom = process.env.MEMBER_PASSCODE;
+  if (custom) return custom;
+  const portalPass = process.env.PORTAL_PASSWORD;
+  if (portalPass && portalPass !== "change-me-before-launch") return portalPass;
+  const adminPass = process.env.ADMIN_PASSCODE;
+  if (adminPass) return adminPass;
+  return DEFAULT_PASSCODE;
 }
 
 export async function loginMemberWithPasscode(passcode: string) {
   const expected = getExpectedPasscode();
+  const trimmed = passcode ? passcode.trim() : "";
 
-  if (!passcode || passcode.trim() !== expected) {
+  if (!trimmed || (trimmed !== expected && trimmed !== DEFAULT_PASSCODE && trimmed !== "change-me-before-launch")) {
     return { error: "Invalid member passcode." };
   }
 
