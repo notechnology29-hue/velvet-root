@@ -26,27 +26,43 @@ create unique index if not exists profiles_user_id_unique_idx
   on public.profiles(user_id)
   where user_id is not null;
 
+-- Grant table-level privileges. Supabase's built-in roles (anon, authenticated,
+-- service_role) need explicit GRANTs on tables created outside the dashboard UI;
+-- RLS policies below then restrict what each role can actually see/change.
+grant usage on schema public to anon, authenticated, service_role;
+
+grant all on public.profiles to service_role;
+grant all on public.settings to service_role;
+
+grant select, insert, update on public.profiles to authenticated;
+grant select, insert, update on public.settings to authenticated;
+
+grant select on public.profiles to anon;
+grant select on public.settings to anon;
+
 alter table public.profiles enable row level security;
 alter table public.settings enable row level security;
 
+-- Helper function to check if current user is an admin without triggering RLS recursion
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1
+    from public.profiles
+    where user_id = auth.uid()
+      and role = 'admin'
+  );
+$$;
+
 create policy "Admins can manage all profiles"
 on public.profiles for all
-using (
-  exists (
-    select 1
-    from public.profiles admin_profile
-    where admin_profile.user_id = auth.uid()
-      and admin_profile.role = 'admin'
-  )
-)
-with check (
-  exists (
-    select 1
-    from public.profiles admin_profile
-    where admin_profile.user_id = auth.uid()
-      and admin_profile.role = 'admin'
-  )
-);
+using (public.is_admin())
+with check (public.is_admin());
 
 create policy "Users can view own profile"
 on public.profiles for select
@@ -54,22 +70,8 @@ using (user_id = auth.uid());
 
 create policy "Admins can manage all settings"
 on public.settings for all
-using (
-  exists (
-    select 1
-    from public.profiles admin_profile
-    where admin_profile.user_id = auth.uid()
-      and admin_profile.role = 'admin'
-  )
-)
-with check (
-  exists (
-    select 1
-    from public.profiles admin_profile
-    where admin_profile.user_id = auth.uid()
-      and admin_profile.role = 'admin'
-  )
-);
+using (public.is_admin())
+with check (public.is_admin());
 
 create policy "Public can read hero setting"
 on public.settings for select
