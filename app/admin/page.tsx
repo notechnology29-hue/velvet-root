@@ -5,6 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 
 import {
+  adminSaveSettings,
+  adminSignOut,
+  adminUpdateStatuses,
+  checkAdminSession,
+  getAdminDashboardData
+} from "@/app/admin/actions";
+import {
   createSupabaseBrowserClient,
   type AppProfile,
   type ProfileStatus,
@@ -77,6 +84,7 @@ export default function AdminPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [memberSearchTerm, setMemberSearchTerm] = useState("");
   const [tab, setTab] = useState<AdminTab>("applications");
+  const [isPasscodeAdmin, setIsPasscodeAdmin] = useState(false);
   const [heroVideoUrl, setHeroVideoUrl] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -85,11 +93,40 @@ export default function AdminPage() {
   const [memberPage, setMemberPage] = useState(1);
 
   useEffect(() => {
+    let active = true;
+
+    const checkPasscode = async () => {
+      const hasPasscode = await checkAdminSession();
+
+      if (!active) {
+        return;
+      }
+
+      setIsPasscodeAdmin(hasPasscode);
+
+      if (hasPasscode) {
+        const data = await getAdminDashboardData();
+
+        if (!active) {
+          return;
+        }
+
+        if (data.error) {
+          setMessage(data.error);
+        } else if (data.profiles) {
+          setProfiles(data.profiles);
+          setHeroVideoUrl(data.heroVideoUrl ?? "");
+        }
+
+        setLoading(false);
+      }
+    };
+
+    checkPasscode();
+
     if (!supabase) {
       return;
     }
-
-    let active = true;
 
     const hydrateAuthState = async (nextSession: Session | null) => {
       if (!active) {
@@ -100,7 +137,9 @@ export default function AdminPage() {
 
       if (!nextSession) {
         setProfile(null);
-        setLoading(false);
+        if (!isPasscodeAdmin) {
+          setLoading(false);
+        }
         return;
       }
 
@@ -118,7 +157,11 @@ export default function AdminPage() {
         }
 
         setProfile(null);
-        setMessage(error instanceof Error ? error.message : "Unable to load admin profile.");
+        if (!isPasscodeAdmin) {
+          setMessage(
+            error instanceof Error ? error.message : "Unable to load admin profile."
+          );
+        }
       }
 
       setLoading(false);
@@ -144,9 +187,13 @@ export default function AdminPage() {
       active = false;
       subscription.unsubscribe();
     };
-  }, [supabase]);
+  }, [isPasscodeAdmin, supabase]);
 
   useEffect(() => {
+    if (isPasscodeAdmin) {
+      return;
+    }
+
     if (!supabase || !session || !profile || profile.role !== "admin") {
       return;
     }
@@ -154,36 +201,21 @@ export default function AdminPage() {
     let active = true;
 
     const loadDashboard = async () => {
-      const [{ data: profileRows, error: profilesError }, { data: settingRow, error: settingsError }] =
-        await Promise.all([
-          supabase
-            .from("profiles")
-            .select("*")
-            .neq("role", "admin")
-            .order("created_at", { ascending: false }),
-          supabase
-            .from("settings")
-            .select("value")
-            .eq("key", "hero_video_url")
-            .maybeSingle()
-        ]);
+      const data = await getAdminDashboardData();
 
       if (!active) {
         return;
       }
 
-      if (profilesError) {
-        setMessage(profilesError.message);
+      if (data.error) {
+        setMessage(data.error);
         return;
       }
 
-      if (settingsError) {
-        setMessage(settingsError.message);
-        return;
+      if (data.profiles) {
+        setProfiles(data.profiles);
+        setHeroVideoUrl(data.heroVideoUrl ?? "");
       }
-
-      setProfiles((profileRows as AppProfile[]) ?? []);
-      setHeroVideoUrl(settingRow?.value ?? "");
     };
 
     loadDashboard();
@@ -191,7 +223,7 @@ export default function AdminPage() {
     return () => {
       active = false;
     };
-  }, [profile, session, supabase]);
+  }, [isPasscodeAdmin, profile, session, supabase]);
 
   const applicationCounts = useMemo(() => {
     return profiles.reduce<Record<ProfileStatus, number>>(
@@ -359,7 +391,7 @@ export default function AdminPage() {
   }
 
   async function handleStatusUpdate(ids: string[], nextStatus: ProfileStatus) {
-    if (!supabase || ids.length === 0) {
+    if (ids.length === 0) {
       setMessage("Select at least one member profile.");
       return;
     }
@@ -367,15 +399,28 @@ export default function AdminPage() {
     setSubmitting(true);
     setMessage(null);
 
-    const { error } = await supabase
-      .from("profiles")
-      .update({ status: nextStatus })
-      .in("id", ids);
+    let errorMsg: string | null = null;
+
+    if (isPasscodeAdmin) {
+      const res = await adminUpdateStatuses(ids, nextStatus);
+      if (res.error) {
+        errorMsg = res.error;
+      }
+    } else if (supabase) {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ status: nextStatus })
+        .in("id", ids);
+
+      if (error) {
+        errorMsg = error.message;
+      }
+    }
 
     setSubmitting(false);
 
-    if (error) {
-      setMessage(error.message);
+    if (errorMsg) {
+      setMessage(errorMsg);
       return;
     }
 
@@ -399,26 +444,34 @@ export default function AdminPage() {
   async function handleSaveSettings(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!supabase) {
-      setMessage("Supabase is not configured.");
-      return;
-    }
-
     setSubmitting(true);
     setMessage(null);
 
-    const { error } = await supabase.from("settings").upsert(
-      {
-        key: "hero_video_url",
-        value: heroVideoUrl.trim()
-      },
-      { onConflict: "key" }
-    );
+    let errorMsg: string | null = null;
+
+    if (isPasscodeAdmin) {
+      const res = await adminSaveSettings(heroVideoUrl);
+      if (res.error) {
+        errorMsg = res.error;
+      }
+    } else if (supabase) {
+      const { error } = await supabase.from("settings").upsert(
+        {
+          key: "hero_video_url",
+          value: heroVideoUrl.trim()
+        },
+        { onConflict: "key" }
+      );
+
+      if (error) {
+        errorMsg = error.message;
+      }
+    }
 
     setSubmitting(false);
 
-    if (error) {
-      setMessage(error.message);
+    if (errorMsg) {
+      setMessage(errorMsg);
       return;
     }
 
@@ -426,33 +479,18 @@ export default function AdminPage() {
   }
 
   async function handleSignOut() {
-    if (!supabase) {
-      return;
+    await adminSignOut();
+    if (supabase) {
+      await supabase.auth.signOut();
     }
-
-    await supabase.auth.signOut();
     setSession(null);
     setProfile(null);
+    setIsPasscodeAdmin(false);
     setProfiles([]);
     setSelectedApplicationId(null);
     setSelectedMemberId(null);
     setSelectedIds([]);
     setMessage(null);
-  }
-
-  if (!supabase) {
-    return (
-      <div className="section-shell flex min-h-[100dvh] items-center justify-center">
-        <div className="surface-card w-full max-w-md p-6 text-center">
-          <p className="eyebrow">Admin</p>
-          <h1 className="mt-4 text-3xl">Supabase is not configured</h1>
-          <p className="mt-4 text-base text-cream/80">
-            Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to enable
-            admin access.
-          </p>
-        </div>
-      </div>
-    );
   }
 
   if (loading) {
@@ -466,14 +504,36 @@ export default function AdminPage() {
     );
   }
 
-  if (!session) {
+  const isAuthorized = isPasscodeAdmin || (session && profile?.role === "admin");
+
+  if (!isAuthorized) {
+    if (session && profile && profile.role !== "admin") {
+      return (
+        <div className="section-shell flex min-h-[100dvh] items-center justify-center">
+          <div className="surface-card w-full max-w-md p-6 sm:p-8">
+            <p className="eyebrow">Admin</p>
+            <h1 className="mt-4 text-3xl md:text-4xl">Access denied</h1>
+            <p className="mt-4 text-base text-cream/80">
+              This account does not have admin privileges.
+            </p>
+            <button
+              onClick={handleSignOut}
+              className="button-outline mt-6 w-full min-h-[52px] rounded-2xl"
+            >
+              Sign out
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="section-shell flex min-h-[100dvh] items-center justify-center">
         <div className="surface-card w-full max-w-md p-6 sm:p-8">
           <p className="eyebrow">Admin Panel</p>
           <h1 className="mt-4 text-3xl md:text-4xl">Staff authentication required</h1>
           <p className="mt-4 text-base text-cream/80">
-            Continue to the dedicated login route to request your secure magic link.
+            Enter the admin passcode or request a magic link to access the dashboard.
           </p>
           <Link
             href="/admin/login"
@@ -481,26 +541,6 @@ export default function AdminPage() {
           >
             Go to Admin Login
           </Link>
-        </div>
-      </div>
-    );
-  }
-
-  if (!profile || profile.role !== "admin") {
-    return (
-      <div className="section-shell flex min-h-[100dvh] items-center justify-center">
-        <div className="surface-card w-full max-w-md p-6 sm:p-8">
-          <p className="eyebrow">Admin</p>
-          <h1 className="mt-4 text-3xl md:text-4xl">Access denied</h1>
-          <p className="mt-4 text-base text-cream/80">
-            This account does not have admin privileges.
-          </p>
-          <button
-            onClick={handleSignOut}
-            className="button-outline mt-6 w-full min-h-[52px] rounded-2xl"
-          >
-            Sign out
-          </button>
         </div>
       </div>
     );
