@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#121212"/>
+      <stop offset="50%" stop-color="#2C4C3B"/>
+      <stop offset="100%" stop-color="#121212"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#B76E79" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#B76E79" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <circle cx="800" cy="450" r="400" fill="url(#glow)"/>
+  <rect x="700" y="350" rx="20" width="200" height="200" fill="none" stroke="#B76E79" stroke-width="2" opacity="0.3"/>
+  <text x="800" y="460" font-family="'Playfair Display', serif" font-size="48" fill="#F5F5F0" text-anchor="middle" letter-spacing="12">THE VELVET ROOT</text>
+  <text x="800" y="520" font-family="'Inter', sans-serif" font-size="16" fill="#B76E79" text-anchor="middle" letter-spacing="6">CULINARY SOCIETY &amp; BOTANICAL CLUB</text>
+</svg>
