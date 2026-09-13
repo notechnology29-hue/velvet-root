@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(183, 110, 121, 0.14), transparent 34%),
+    linear-gradient(180deg, rgba(44, 76, 59, 0.08), transparent 42%),
+    #121212;
+  color: #f5f5f0;
+}
+
+::selection {
+  background: rgba(183, 110, 121, 0.28);
+  color: #f5f5f0;
+}
+
+@layer base {
+  * {
+    @apply border-neutral-800;
+  }
+
+  body {
+    @apply font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif tracking-[0.18em] text-cream;
+  }
+
+  p {
+    @apply leading-relaxed text-cream/80;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply text-base;
+  }
+}
+
+@layer components {
+  .surface-card {
+    @apply rounded-[28px] border border-white/10 bg-white/[0.03] backdrop-blur-sm;
+  }
+
+  .section-shell {
+    @apply mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 md:py-24;
+  }
+
+  .eyebrow {
+    @apply text-xs uppercase tracking-[0.35em] text-rose/85;
+  }
+
+  .button-outline {
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-full border border-rose/60 px-6 py-3 text-sm uppercase tracking-[0.28em] text-cream transition hover:border-rose hover:bg-rose/10 focus:outline-none focus:ring-2 focus:ring-rose/60 focus:ring-offset-2 focus:ring-offset-obsidian;
+  }
+
+  .button-solid {
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-full bg-rose px-6 py-3 text-sm uppercase tracking-[0.28em] text-obsidian transition hover:bg-[#ca8690] focus:outline-none focus:ring-2 focus:ring-rose/70 focus:ring-offset-2 focus:ring-offset-obsidian;
+  }
+}
+
+@layer utilities {
+  .mask-scrollbar::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .mask-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(183, 110, 121, 0.4);
+    border-radius: 999px;
+  }
+}

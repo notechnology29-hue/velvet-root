@@ -1,0 +1,12 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="48" fill="#131313"/>
+  <rect x="60" y="60" width="1080" height="780" rx="36" stroke="rgba(245,245,240,0.16)" stroke-width="2"/>
+  <path d="M176 635C319.333 529 459.333 476 596 476C732.667 476 875.333 529 1024 635" stroke="#2C4C3B" stroke-opacity="0.7" stroke-width="2"/>
+  <path d="M220 252H968" stroke="#B76E79" stroke-opacity="0.32" stroke-width="2"/>
+  <path d="M220 362H968" stroke="#B76E79" stroke-opacity="0.22" stroke-width="2"/>
+  <rect x="224" y="190" width="214" height="422" rx="28" fill="rgba(245,245,240,0.03)" stroke="rgba(245,245,240,0.08)"/>
+  <rect x="493" y="148" width="214" height="464" rx="28" fill="rgba(245,245,240,0.04)" stroke="rgba(245,245,240,0.08)"/>
+  <rect x="762" y="220" width="214" height="392" rx="28" fill="rgba(245,245,240,0.03)" stroke="rgba(245,245,240,0.08)"/>
+  <text x="179" y="727" fill="#F5F5F0" font-family="Georgia, serif" font-size="54" letter-spacing="9">WORKFORCE VISION</text>
+  <text x="180" y="778" fill="rgba(245,245,240,0.68)" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">MENTORSHIP / TRAINING / MULTI-STATE GROWTH</text>
+</svg>

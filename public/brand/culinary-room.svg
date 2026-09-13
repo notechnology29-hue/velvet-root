@@ -1,0 +1,14 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="48" fill="#171717"/>
+  <rect x="54" y="54" width="1092" height="792" rx="36" stroke="rgba(245,245,240,0.15)" stroke-width="2"/>
+  <ellipse cx="615" cy="276" rx="298" ry="118" fill="#2C4C3B" fill-opacity="0.16"/>
+  <ellipse cx="601" cy="332" rx="401" ry="148" fill="#B76E79" fill-opacity="0.12"/>
+  <rect x="174" y="418" width="852" height="214" rx="28" fill="rgba(245,245,240,0.03)" stroke="rgba(245,245,240,0.08)"/>
+  <rect x="250" y="473" width="214" height="110" rx="20" fill="rgba(245,245,240,0.05)"/>
+  <rect x="494" y="473" width="214" height="110" rx="20" fill="rgba(245,245,240,0.05)"/>
+  <rect x="738" y="473" width="214" height="110" rx="20" fill="rgba(245,245,240,0.05)"/>
+  <path d="M281 441C311.5 378.5 364.5 347.25 440 347.25C515.5 347.25 560 379.5 594.5 441" stroke="#F5F5F0" stroke-opacity="0.45" stroke-width="2"/>
+  <path d="M609 441C639.5 378.5 692.5 347.25 768 347.25C843.5 347.25 888 379.5 922.5 441" stroke="#F5F5F0" stroke-opacity="0.45" stroke-width="2"/>
+  <text x="169" y="733" fill="#F5F5F0" font-family="Georgia, serif" font-size="56" letter-spacing="10">CULINARY SALON</text>
+  <text x="171" y="784" fill="rgba(245,245,240,0.68)" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">INTIMATE SERVICE / LOW-LIGHT ATMOSPHERE / EDITORIAL PLATING</text>
+</svg>
