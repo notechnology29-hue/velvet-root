@@ -9,12 +9,14 @@ const requiredFields = [
   "dob",
   "email",
   "phone",
-  "social",
   "draw",
   "community",
-  "age",
-  "alcoholFree",
-  "rideshare"
+  "allergies",
+  "cert_age",
+  "cert_byoc",
+  "cert_alcohol_free",
+  "cert_no_drive",
+  "cert_confidentiality"
 ] as const;
 
 export async function submitMembershipApplication(formData: FormData) {
@@ -28,23 +30,33 @@ export async function submitMembershipApplication(formData: FormData) {
   }
 
   const name = String(formData.get("name") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
+  const dob = String(formData.get("dob") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const phone = String(formData.get("phone") ?? "").trim();
   const socialHandle = String(formData.get("social") ?? "").trim();
+  const draw = String(formData.get("draw") ?? "").trim();
+  const community = String(formData.get("community") ?? "").trim();
+  const allergies = String(formData.get("allergies") ?? "").trim();
+
+  const certifications = {
+    age: formData.get("cert_age") === "on",
+    byoc: formData.get("cert_byoc") === "on",
+    alcoholFree: formData.get("cert_alcohol_free") === "on",
+    noDrive: formData.get("cert_no_drive") === "on",
+    confidentiality: formData.get("cert_confidentiality") === "on"
+  };
+
   const payload = {
     submittedAt: new Date().toISOString(),
     name,
-    dob: String(formData.get("dob") ?? "").trim(),
+    dob,
     email,
     phone,
     social: socialHandle,
-    draw: String(formData.get("draw") ?? "").trim(),
-    community: String(formData.get("community") ?? "").trim(),
-    certifications: {
-      age: formData.get("age") === "on",
-      alcoholFree: formData.get("alcoholFree") === "on",
-      rideshare: formData.get("rideshare") === "on"
-    }
+    draw,
+    community,
+    allergies,
+    certifications
   };
 
   const supabase = createSupabaseServerClient();
@@ -55,12 +67,13 @@ export async function submitMembershipApplication(formData: FormData) {
         email,
         name,
         phone,
-        social_handle: socialHandle,
+        social_handle: socialHandle || null,
         vetting_answers: {
-          dob: payload.dob,
-          draw: payload.draw,
-          community: payload.community,
-          certifications: payload.certifications
+          dob,
+          draw,
+          community,
+          allergies,
+          certifications
         },
         status: "pending",
         role: "member"
@@ -77,21 +90,19 @@ export async function submitMembershipApplication(formData: FormData) {
 
   const webhookUrl = process.env.MEMBERSHIP_WEBHOOK_URL;
 
-  if (!webhookUrl) {
-    redirect("/apply?status=demo");
-  }
-
-  const response = await fetch(webhookUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload),
-    cache: "no-store"
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to deliver membership application to the configured intake endpoint.");
+  if (webhookUrl) {
+    try {
+      await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store"
+      });
+    } catch (err) {
+      console.error("Webhook notification error:", err);
+    }
   }
 
   redirect("/apply?status=success");

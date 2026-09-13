@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 
@@ -343,13 +344,27 @@ export default function PortalPage({ searchParams }: PortalPageProps) {
             </p>
           </Reveal>
 
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/12 px-4 py-2 text-sm uppercase tracking-[0.24em] text-cream/70 transition hover:text-cream focus:outline-none focus:ring-2 focus:ring-rose/60"
-          >
-            Sign out
-          </button>
+          <div className="flex flex-wrap gap-3 shrink-0">
+            <Link
+              href="/portal/menus"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-rose/60 bg-rose/10 px-4 py-2 text-xs uppercase tracking-[0.24em] text-cream transition hover:border-rose hover:bg-rose/20 focus:outline-none focus:ring-2 focus:ring-rose/60"
+            >
+              Interactive Menus
+            </Link>
+            <Link
+              href="/portal/waiver"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/12 px-4 py-2 text-xs uppercase tracking-[0.24em] text-cream/80 transition hover:text-cream focus:outline-none focus:ring-2 focus:ring-rose/60"
+            >
+              Member Waiver
+            </Link>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/12 px-4 py-2 text-xs uppercase tracking-[0.24em] text-cream/70 transition hover:text-cream focus:outline-none focus:ring-2 focus:ring-rose/60"
+            >
+              Sign out
+            </button>
+          </div>
         </div>
       </section>
 
