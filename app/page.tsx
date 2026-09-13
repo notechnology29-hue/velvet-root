@@ -21,7 +21,8 @@ export default async function HomePage() {
             muted
             loop
             playsInline
-            poster="/brand/hero-poster.svg"
+            preload="auto"
+            poster="/brand/hero-video-poster.svg"
             className="absolute inset-0 h-full w-full object-cover opacity-60"
             src={activeHeroVideoUrl}
           />

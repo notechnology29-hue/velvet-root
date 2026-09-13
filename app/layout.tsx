@@ -15,7 +15,10 @@ const playfair = Playfair_Display({
   variable: "--font-playfair"
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://velvet-root.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "The Velvet Root",
   description:
     "A private culinary society exploring the intersection of fine dining and botanical wellness.",
