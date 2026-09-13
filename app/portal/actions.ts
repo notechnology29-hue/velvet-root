@@ -48,7 +48,43 @@ export async function checkMemberSession() {
 export async function memberSignOut() {
   const cookieStore = cookies();
   cookieStore.delete(MEMBER_COOKIE_NAME);
+  cookieStore.delete("vr_member_waiver_signed");
   return { success: true };
+}
+
+export async function checkWaiverSigned() {
+  const cookieStore = cookies();
+  const waiverCookie = cookieStore.get("vr_member_waiver_signed");
+  return waiverCookie?.value === "signed";
+}
+
+export async function signMemberWaiver(formData: FormData) {
+  const typedName = String(formData.get("typedName") ?? "").trim();
+  const signatureDate = String(formData.get("signatureDate") ?? "").trim();
+
+  if (!typedName || !signatureDate) {
+    redirect("/portal/waiver?status=missing");
+  }
+
+  const cookieStore = cookies();
+  // Ensure member is authenticated when signing
+  cookieStore.set(MEMBER_COOKIE_NAME, "authenticated", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+    path: "/"
+  });
+
+  cookieStore.set("vr_member_waiver_signed", "signed", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+    path: "/"
+  });
+
+  redirect("/portal?waiver=completed");
 }
 
 export async function beginRsvpCheckout(formData: FormData) {

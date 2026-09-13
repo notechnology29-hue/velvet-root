@@ -12,17 +12,11 @@ type ApplyPageProps = {
 function StatusBanner({ status }: { status?: string }) {
   if (status === "success") {
     return (
-      <div className="surface-card border-botanical/40 bg-botanical/10 p-4 text-sm text-cream/85">
-        Your application has been received and routed for review.
-      </div>
-    );
-  }
-
-  if (status === "demo") {
-    return (
-      <div className="surface-card border-rose/40 bg-rose/10 p-4 text-sm text-cream/85">
-        MVP note: configure <code>MEMBERSHIP_WEBHOOK_URL</code> before launch to
-        route submissions beyond this on-site confirmation flow.
+      <div className="surface-card border-rose/50 bg-rose/10 p-6 text-center text-cream">
+        <p className="eyebrow">Application Received</p>
+        <p className="mt-2 font-serif text-xl sm:text-2xl text-cream">
+          Application submitted. Our board will review your profile for the October 2026 launch.
+        </p>
       </div>
     );
   }
@@ -30,7 +24,7 @@ function StatusBanner({ status }: { status?: string }) {
   if (status === "missing") {
     return (
       <div className="surface-card border-rose/40 bg-rose/10 p-4 text-sm text-cream/85">
-        Please complete every field and acknowledgement before submitting.
+        Please complete all required fields and mandatory compliance acknowledgements before submitting.
       </div>
     );
   }
@@ -46,9 +40,9 @@ export default function ApplyPage({ searchParams }: ApplyPageProps) {
         <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl">
           Apply for private access.
         </h1>
-        <p className="mt-5 text-base md:text-lg">
-          Share a brief introduction so the team can review alignment, hospitality
-          fit, and community intent before extending membership consideration.
+        <p className="mt-5 text-base md:text-lg text-cream/80">
+          Share a brief introduction so the admissions committee can review alignment, hospitality
+          fit, and community intent before extending membership consideration for The Velvet Root.
         </p>
       </Reveal>
 
@@ -57,24 +51,26 @@ export default function ApplyPage({ searchParams }: ApplyPageProps) {
       </div>
 
       <form action={submitMembershipApplication} className="mt-8 space-y-6">
-        <div className="grid gap-4 md:grid-cols-2">
+        {/* Contact & Demographic Info */}
+        <div className="grid gap-5 md:grid-cols-2">
           <Reveal className="space-y-2">
-            <label htmlFor="name" className="text-sm uppercase tracking-[0.24em] text-cream/70">
-              Name
+            <label htmlFor="name" className="text-xs uppercase tracking-[0.24em] text-cream/70">
+              First &amp; Last Name <span className="text-rose">*</span>
             </label>
             <input
               id="name"
               name="name"
               type="text"
+              placeholder="Full Legal Name"
               autoComplete="name"
               required
-              className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
+              className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-[16px] md:text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
             />
           </Reveal>
 
           <Reveal className="space-y-2" delay={0.04}>
-            <label htmlFor="dob" className="text-sm uppercase tracking-[0.24em] text-cream/70">
-              DOB
+            <label htmlFor="dob" className="text-xs uppercase tracking-[0.24em] text-cream/70">
+              Date of Birth (21+ Required) <span className="text-rose">*</span>
             </label>
             <input
               id="dob"
@@ -82,126 +78,171 @@ export default function ApplyPage({ searchParams }: ApplyPageProps) {
               type="date"
               autoComplete="bday"
               required
-              className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
+              className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-[16px] md:text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
             />
           </Reveal>
 
           <Reveal className="space-y-2" delay={0.08}>
-            <label htmlFor="email" className="text-sm uppercase tracking-[0.24em] text-cream/70">
-              Email
+            <label htmlFor="email" className="text-xs uppercase tracking-[0.24em] text-cream/70">
+              Email Address <span className="text-rose">*</span>
             </label>
             <input
               id="email"
               name="email"
               type="email"
+              placeholder="name@domain.com"
               autoComplete="email"
               required
-              className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
+              className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-[16px] md:text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
             />
           </Reveal>
 
           <Reveal className="space-y-2" delay={0.12}>
-            <label htmlFor="phone" className="text-sm uppercase tracking-[0.24em] text-cream/70">
-              Phone
+            <label htmlFor="phone" className="text-xs uppercase tracking-[0.24em] text-cream/70">
+              Phone Number <span className="text-rose">*</span>
             </label>
             <input
               id="phone"
               name="phone"
               type="tel"
+              placeholder="(555) 000-0000"
               autoComplete="tel"
               required
-              className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
+              className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-[16px] md:text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
             />
           </Reveal>
         </div>
 
         <Reveal className="space-y-2" delay={0.16}>
-          <label htmlFor="social" className="text-sm uppercase tracking-[0.24em] text-cream/70">
-            Social Handle
+          <label htmlFor="social" className="text-xs uppercase tracking-[0.24em] text-cream/70">
+            Social Handle (Instagram / LinkedIn) <span className="text-cream/40">(Optional)</span>
           </label>
           <input
             id="social"
             name="social"
             type="text"
+            placeholder="@username or profile link"
             autoComplete="off"
-            required
-            className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
+            className="w-full min-h-[52px] rounded-2xl border border-white/12 bg-white/[0.03] px-4 text-[16px] md:text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
           />
         </Reveal>
 
+        {/* Vetting Textareas */}
         <Reveal className="space-y-2" delay={0.2}>
-          <label htmlFor="draw" className="text-sm uppercase tracking-[0.24em] text-cream/70">
-            What draws you to an alcohol-free, fine-dining experience?
+          <label htmlFor="draw" className="text-xs uppercase tracking-[0.24em] text-cream/70 block">
+            What draws you to this specific type of alcohol-free, fine-dining experience? <span className="text-rose">*</span>
           </label>
           <textarea
             id="draw"
             name="draw"
-            rows={5}
+            rows={4}
+            placeholder="Share your perspective on high-end alcohol-free hospitality…"
             required
-            className="w-full rounded-[24px] border border-white/12 bg-white/[0.03] px-4 py-4 text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
+            className="w-full rounded-[24px] border border-white/12 bg-white/[0.03] px-4 py-4 text-[16px] md:text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
           />
         </Reveal>
 
         <Reveal className="space-y-2" delay={0.24}>
           <label
             htmlFor="community"
-            className="text-sm uppercase tracking-[0.24em] text-cream/70"
+            className="text-xs uppercase tracking-[0.24em] text-cream/70 block"
           >
-            How do you align with community-driven initiatives?
+            How do you align with or support community-driven initiatives (e.g., workforce development)? <span className="text-rose">*</span>
           </label>
           <textarea
             id="community"
             name="community"
-            rows={5}
+            rows={4}
+            placeholder="Tell us about your background or community involvement…"
             required
-            className="w-full rounded-[24px] border border-white/12 bg-white/[0.03] px-4 py-4 text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
+            className="w-full rounded-[24px] border border-white/12 bg-white/[0.03] px-4 py-4 text-[16px] md:text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
           />
         </Reveal>
 
-        <Reveal className="space-y-4" delay={0.28}>
-          <p className="text-sm uppercase tracking-[0.24em] text-cream/70">
-            Compliance acknowledgements
+        <Reveal className="space-y-2" delay={0.28}>
+          <label htmlFor="allergies" className="text-xs uppercase tracking-[0.24em] text-cream/70 block">
+            Do you have any food allergies? <span className="text-cream/50">(Our kitchen is inherently 100% Gluten-Free, Pork-Free, and Nut-Free)</span> <span className="text-rose">*</span>
+          </label>
+          <textarea
+            id="allergies"
+            name="allergies"
+            rows={3}
+            placeholder="List any specific dietary restrictions or confirm none…"
+            required
+            className="w-full rounded-[24px] border border-white/12 bg-white/[0.03] px-4 py-4 text-[16px] md:text-base text-cream outline-none transition focus:border-rose/60 focus:ring-2 focus:ring-rose/40"
+          />
+        </Reveal>
+
+        {/* Mandatory Compliance Checkboxes (Oversized for mobile thumbs) */}
+        <Reveal className="space-y-3 pt-4" delay={0.32}>
+          <p className="text-xs uppercase tracking-[0.28em] text-rose font-semibold">
+            Mandatory Compliance Acknowledgements
           </p>
 
-          <label className="surface-card flex min-h-[64px] cursor-pointer items-start gap-4 px-4 py-4">
+          <label className="surface-card flex min-h-[64px] cursor-pointer items-center gap-4 px-5 py-4 transition hover:border-rose/40">
             <input
               type="checkbox"
-              name="age"
+              name="cert_age"
               required
-              className="mt-1 h-6 w-6 shrink-0 rounded border border-white/20 bg-transparent accent-rose"
+              className="h-6 w-6 shrink-0 rounded border border-white/20 bg-transparent accent-rose focus:ring-rose/50"
             />
-            <span className="text-base text-cream/86">
-              I certify I am 21+ years of age.
+            <span className="text-sm md:text-base text-cream/90 leading-snug">
+              I certify I am at least 21 years of age.
             </span>
           </label>
 
-          <label className="surface-card flex min-h-[64px] cursor-pointer items-start gap-4 px-4 py-4">
+          <label className="surface-card flex min-h-[64px] cursor-pointer items-center gap-4 px-5 py-4 transition hover:border-rose/40">
             <input
               type="checkbox"
-              name="alcoholFree"
+              name="cert_byoc"
               required
-              className="mt-1 h-6 w-6 shrink-0 rounded border border-white/20 bg-transparent accent-rose"
+              className="h-6 w-6 shrink-0 rounded border border-white/20 bg-transparent accent-rose focus:ring-rose/50"
             />
-            <span className="text-base text-cream/86">
-              I acknowledge The Velvet Root is an alcohol-free environment.
+            <span className="text-sm md:text-base text-cream/90 leading-snug">
+              I understand The Velvet Root operates a strict B.Y.O.C. (Bring-Your-Own-Cannabis) model and does not sell or distribute cannabis on-site.
             </span>
           </label>
 
-          <label className="surface-card flex min-h-[64px] cursor-pointer items-start gap-4 px-4 py-4">
+          <label className="surface-card flex min-h-[64px] cursor-pointer items-center gap-4 px-5 py-4 transition hover:border-rose/40">
             <input
               type="checkbox"
-              name="rideshare"
+              name="cert_alcohol_free"
               required
-              className="mt-1 h-6 w-6 shrink-0 rounded border border-white/20 bg-transparent accent-rose"
+              className="h-6 w-6 shrink-0 rounded border border-white/20 bg-transparent accent-rose focus:ring-rose/50"
             />
-            <span className="text-base text-cream/86">
-              I agree to the No-Drive rideshare policy.
+            <span className="text-sm md:text-base text-cream/90 leading-snug">
+              I acknowledge the premises are strictly alcohol-free.
+            </span>
+          </label>
+
+          <label className="surface-card flex min-h-[64px] cursor-pointer items-center gap-4 px-5 py-4 transition hover:border-rose/40">
+            <input
+              type="checkbox"
+              name="cert_no_drive"
+              required
+              className="h-6 w-6 shrink-0 rounded border border-white/20 bg-transparent accent-rose focus:ring-rose/50"
+            />
+            <span className="text-sm md:text-base text-cream/90 leading-snug">
+              I agree to the No-Drive rideshare transportation policy.
+            </span>
+          </label>
+
+          <label className="surface-card flex min-h-[64px] cursor-pointer items-center gap-4 px-5 py-4 transition hover:border-rose/40">
+            <input
+              type="checkbox"
+              name="cert_confidentiality"
+              required
+              className="h-6 w-6 shrink-0 rounded border border-white/20 bg-transparent accent-rose focus:ring-rose/50"
+            />
+            <span className="text-sm md:text-base text-cream/90 leading-snug">
+              I agree to respect private property confidentiality and venue locations.
             </span>
           </label>
         </Reveal>
 
+        {/* Sticky Submit Button */}
         <div className="sticky bottom-4 z-30 pt-4">
-          <div className="surface-card border-white/12 bg-neutral-950/88 p-3 backdrop-blur">
+          <div className="surface-card border-white/12 bg-neutral-950/90 p-3 backdrop-blur shadow-glow">
             <ApplicationSubmitButton />
           </div>
         </div>
