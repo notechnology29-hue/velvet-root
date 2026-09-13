@@ -34,11 +34,11 @@ export default async function HomePage() {
         <div className="section-shell relative z-10 flex flex-col items-center justify-center text-center">
           <Reveal className="max-w-3xl">
             <Image
-              src="/brand/velvet-root-monogram.svg"
-              alt="The Velvet Root monogram"
-              width={96}
-              height={96}
-              className="mx-auto mb-8 h-20 w-20 rounded-[24px] border border-white/10 shadow-glow"
+              src="/brand/velvet-root-logo.png"
+              alt="The Velvet Root logo"
+              width={200}
+              height={200}
+              className="mx-auto mb-6 h-36 w-36 sm:h-44 sm:w-44 object-contain rounded-3xl border border-white/10 shadow-glow bg-black/40 p-2 backdrop-blur-sm"
               priority
             />
             <p className="eyebrow">Private Culinary Society</p>
