@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -95,9 +96,16 @@ export default function AdminLoginPage() {
 
   return (
     <div className="section-shell flex min-h-[100dvh] items-center justify-center">
-      <div className="surface-card w-full max-w-md p-6 sm:p-8">
+      <div className="surface-card w-full max-w-md p-6 sm:p-8 text-center">
+        <Image
+          src="/brand/velvet-root-logo.png"
+          alt="The Velvet Root logo"
+          width={80}
+          height={80}
+          className="mx-auto mb-4 h-20 w-20 object-contain rounded-2xl border border-white/10 shadow-glow bg-black/40 p-1"
+        />
         <p className="eyebrow">Staff Access</p>
-        <h1 className="mt-4 text-3xl md:text-4xl">Admin login</h1>
+        <h1 className="mt-2 text-3xl md:text-4xl">Admin login</h1>
         <p className="mt-4 text-base text-cream/80">
           Enter the admin passcode for instant access or use your staff email.
         </p>

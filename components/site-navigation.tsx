@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -18,12 +19,19 @@ export function SiteNavigation() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-40 hidden border-b border-white/10 bg-obsidian/80 backdrop-blur md:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
           <Link
             href="/"
-            className="min-h-[44px] rounded-full px-4 py-2 font-serif text-lg tracking-[0.24em] text-cream transition hover:text-rose focus:outline-none focus:ring-2 focus:ring-rose/60"
+            className="flex items-center gap-3 min-h-[44px] rounded-full px-3 py-1 font-serif text-lg tracking-[0.24em] text-cream transition hover:text-rose focus:outline-none focus:ring-2 focus:ring-rose/60"
           >
-            THE VELVET ROOT
+            <Image
+              src="/brand/velvet-root-logo.png"
+              alt="The Velvet Root Logo"
+              width={36}
+              height={36}
+              className="h-9 w-9 object-contain rounded-lg border border-white/10"
+            />
+            <span>THE VELVET ROOT</span>
           </Link>
 
           <nav className="flex items-center gap-2">
