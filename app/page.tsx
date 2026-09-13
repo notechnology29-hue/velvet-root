@@ -6,31 +6,30 @@ import { getHeroVideoUrl } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
+const FALLBACK_HERO_VIDEO_URL = "/brand/velvet-root-hero.mp4.mp4";
+
 export default async function HomePage() {
   const heroVideoUrl = await getHeroVideoUrl();
+  const activeHeroVideoUrl = heroVideoUrl ?? FALLBACK_HERO_VIDEO_URL;
 
   return (
     <div className="relative overflow-hidden">
       <section className="relative flex min-h-[100dvh] items-center">
         <div className="absolute inset-0 overflow-hidden">
-          {heroVideoUrl ? (
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="/brand/hero-poster.svg"
-              className="absolute inset-0 h-full w-full object-cover opacity-60"
-              src={heroVideoUrl}
-            />
-          ) : (
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(183,110,121,0.22),_transparent_42%),linear-gradient(180deg,_rgba(44,76,59,0.18),_rgba(18,18,18,0.68))]" />
-          )}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/brand/hero-poster.svg"
+            className="absolute inset-0 h-full w-full object-cover opacity-60"
+            src={activeHeroVideoUrl}
+          />
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22 viewBox=%220 0 40 40%22%3E%3Cpath fill=%22none%22 stroke=%22rgba(245,245,240,0.05)%22 stroke-width=%221%22 d=%22M0 20h40M20 0v40%22/%3E%3C/svg%3E')] opacity-20" />
           <div className="absolute inset-0 bg-velvet-gradient" />
           <div className="absolute inset-0 bg-black/55" />
           <div className="absolute inset-x-6 bottom-10 rounded-[28px] border border-white/10 bg-white/[0.04] px-4 py-3 text-[11px] uppercase tracking-[0.3em] text-cream/55 sm:left-auto sm:right-10 sm:w-auto">
-            {heroVideoUrl ? "Dynamic hero video" : "Branded hero poster"}
+            {heroVideoUrl ? "Dynamic hero video" : "Branded hero video"}
           </div>
         </div>
 
