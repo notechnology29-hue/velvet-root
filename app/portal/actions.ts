@@ -123,7 +123,7 @@ export async function beginRsvpCheckout(formData: FormData) {
           unit_amount: 25000,
           product_data: {
             name: "Smoke & Blush October Assessment",
-            description: "Single-seat RSVP for The Velvet Root member portal event."
+            description: "Single-seat RSVP for The VLVT Root member portal event."
           }
         }
       }

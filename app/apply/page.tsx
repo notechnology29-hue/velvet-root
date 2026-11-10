@@ -42,7 +42,7 @@ export default function ApplyPage({ searchParams }: ApplyPageProps) {
         </h1>
         <p className="mt-5 text-base md:text-lg text-cream/80">
           Share a brief introduction so the admissions committee can review alignment, hospitality
-          fit, and community intent before extending membership consideration for The Velvet Root.
+          fit, and community intent before extending membership consideration for The VLVT Root.
         </p>
       </Reveal>
 
@@ -199,7 +199,7 @@ export default function ApplyPage({ searchParams }: ApplyPageProps) {
               className="h-6 w-6 shrink-0 rounded border border-white/20 bg-transparent accent-rose focus:ring-rose/50"
             />
             <span className="text-sm md:text-base text-cream/90 leading-snug">
-              I understand The Velvet Root operates a strict B.Y.O.C. (Bring-Your-Own-Cannabis) model and does not sell or distribute cannabis on-site.
+              I understand The VLVT Root operates a strict B.Y.O.C. (Bring-Your-Own-Cannabis) model and does not sell or distribute cannabis on-site.
             </span>
           </label>
 

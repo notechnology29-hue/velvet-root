@@ -15,7 +15,7 @@ export default function WaiverPage({ searchParams }: WaiverPageProps) {
       <Reveal className="max-w-3xl">
         <p className="eyebrow">Legal Firewall &amp; Member Agreement</p>
         <h1 className="mt-4 font-serif text-3xl sm:text-4xl md:text-5xl text-cream">
-          THE VELVET ROOT PRIVATE CLUB — MEMBER WAIVER &amp; ASSUMPTION OF RISK
+          THE VLVT ROOT PRIVATE CLUB — MEMBER WAIVER &amp; ASSUMPTION OF RISK
         </h1>
         <p className="mt-5 text-base md:text-lg text-cream/80">
           This binding legal agreement must be digitally executed by all approved members prior to reserving seats, attending events, or accessing protected venue logistics.
@@ -42,7 +42,7 @@ export default function WaiverPage({ searchParams }: WaiverPageProps) {
               </h2>
             </div>
             <p className="text-sm sm:text-base text-cream/82 leading-relaxed pl-11">
-              By entering this agreement, the undersigned certifies that they are at least twenty-one (21) years of age. The member acknowledges that all events organized by The Velvet Root LLC are strictly closed, private gatherings restricted exclusively to verified members and their authorized guests by advance invitation.
+              By entering this agreement, the undersigned certifies that they are at least twenty-one (21) years of age. The member acknowledges that all events organized by Vlvt Root LLC are strictly closed, private gatherings restricted exclusively to verified members and their authorized guests by advance invitation.
             </p>
           </div>
 
@@ -57,7 +57,7 @@ export default function WaiverPage({ searchParams }: WaiverPageProps) {
               </h2>
             </div>
             <p className="text-sm sm:text-base text-cream/82 leading-relaxed pl-11">
-              The member explicitly agrees and understands that The Velvet Root LLC, its officers, executives (including Kemya Mathews and Keaton Elliott), employees, culinary staff, and venue hosts do NOT sell, supply, distribute, or gift cannabis or THC products in any form. Guests maintain complete physical control and possession of their legally acquired personal botanical products at all times. Service guidance provided by on-site Cannabis Sommeliers is strictly educational and advisory.
+              The member explicitly agrees and understands that Vlvt Root LLC, its officers, executives (including Kemya Mathews and Keaton Elliott), employees, culinary staff, and venue hosts do NOT sell, supply, distribute, or gift cannabis or THC products in any form. Guests maintain complete physical control and possession of their legally acquired personal botanical products at all times. Service guidance provided by on-site Cannabis Sommeliers is strictly educational and advisory.
             </p>
           </div>
 
@@ -72,7 +72,7 @@ export default function WaiverPage({ searchParams }: WaiverPageProps) {
               </h2>
             </div>
             <p className="text-sm sm:text-base text-cream/82 leading-relaxed pl-11">
-              The member knowingly assumes all risks associated with personal cannabis consumption. The member agrees to strictly observe the society’s mandatory 15 milligram (15mg THC) cumulative educational dosing cap per event. The member hereby releases, waives, and forever discharges The Velvet Root LLC, venue owners, and event partners from any liability, illness, or injury resulting from individual consumption choices.
+              The member knowingly assumes all risks associated with personal cannabis consumption. The member agrees to strictly observe the society’s mandatory 15 milligram (15mg THC) cumulative educational dosing cap per event. The member hereby releases, waives, and forever discharges Vlvt Root LLC, venue owners, and event partners from any liability, illness, or injury resulting from individual consumption choices.
             </p>
           </div>
 
@@ -87,7 +87,7 @@ export default function WaiverPage({ searchParams }: WaiverPageProps) {
               </h2>
             </div>
             <p className="text-sm sm:text-base text-cream/82 leading-relaxed pl-11">
-              Safety is paramount. Member agrees never to operate a motor vehicle following attendance at any Velvet Root assessment or dinner. Member binds themselves to utilize commercial rideshare services (Uber, Lyft), licensed taxis, or a verified non-consuming designated driver upon departure. Venue security reserves the right to arrange rideshare transport on the member&apos;s behalf if deemed necessary.
+              Safety is paramount. Member agrees never to operate a motor vehicle following attendance at any VLVT Root assessment or dinner. Member binds themselves to utilize commercial rideshare services (Uber, Lyft), licensed taxis, or a verified non-consuming designated driver upon departure. Venue security reserves the right to arrange rideshare transport on the member&apos;s behalf if deemed necessary.
             </p>
           </div>
 
@@ -111,7 +111,7 @@ export default function WaiverPage({ searchParams }: WaiverPageProps) {
         <Reveal className="surface-card p-6 sm:p-8" delay={0.12}>
           <h3 className="font-serif text-xl text-cream">Digital Execution &amp; Signature</h3>
           <p className="mt-2 text-sm text-cream/70">
-            By typing your name below and submitting, you acknowledge that you have read, understood, and agreed to all terms of The Velvet Root Private Club Member Waiver.
+            By typing your name below and submitting, you acknowledge that you have read, understood, and agreed to all terms of The VLVT Root Private Club Member Waiver.
           </p>
 
           <form action={signMemberWaiver} className="mt-6 space-y-5">

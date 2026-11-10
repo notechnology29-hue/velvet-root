@@ -98,8 +98,8 @@ export default function AdminLoginPage() {
     <div className="section-shell flex min-h-[100dvh] items-center justify-center">
       <div className="surface-card w-full max-w-md p-6 sm:p-8 text-center">
         <Image
-          src="/brand/velvet-root-logo.png"
-          alt="The Velvet Root logo"
+          src="/brand/vlvt-root-logo.svg"
+          alt="The VLVT Root logo"
           width={80}
           height={80}
           className="mx-auto mb-4 h-20 w-20 object-contain rounded-2xl border border-white/10 shadow-glow bg-black/40 p-1"

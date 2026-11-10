@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">VLVT Root monogram</title>
+  <g fill="none" stroke="#ca8080" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M108 104c44-32 90-48 148-48s104 16 148 48" stroke-width="3" opacity=".7"/>
+    <path d="M144 372c29 29 67 44 112 44s83-15 112-44" stroke-width="3" opacity=".7"/>
+    <path d="M256 410c0-32 9-51 28-68 14-12 31-17 48-13-5 18-17 34-36 43-15 7-28 19-40 38" stroke-width="4"/>
+    <path d="M287 366c-1-19 7-34 23-45 4 16-3 31-23 45Z" fill="#ca8080" stroke-width="2"/>
+    <path d="M256 410c0-18-8-31-24-41-13-8-27-10-41-5 5 15 15 27 31 34 13 5 24 9 34 12" stroke-width="4"/>
+    <path d="M229 373c1-16-6-29-19-38-3 14 3 27 19 38Z" fill="#ca8080" stroke-width="2"/>
+  </g>
+  <text x="256" y="300" fill="#ca8080" font-family="Georgia, 'Times New Roman', serif" font-size="132" text-anchor="middle">VLVT</text>
+</svg>

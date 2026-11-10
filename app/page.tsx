@@ -34,8 +34,8 @@ export default async function HomePage() {
         <div className="section-shell relative z-10 flex flex-col items-center justify-center text-center">
           <Reveal className="max-w-3xl">
             <Image
-              src="/brand/velvet-root-logo.png"
-              alt="The Velvet Root logo"
+              src="/brand/vlvt-root-logo.svg"
+              alt="The VLVT Root logo"
               width={200}
               height={200}
               className="mx-auto mb-6 h-36 w-36 sm:h-44 sm:w-44 object-contain rounded-3xl border border-white/10 shadow-glow bg-black/40 p-2 backdrop-blur-sm"
@@ -43,7 +43,7 @@ export default async function HomePage() {
             />
             <p className="eyebrow">Private Culinary Society</p>
             <h1 className="mt-5 text-4xl leading-none text-cream sm:text-5xl md:text-7xl">
-              THE VELVET ROOT
+              THE VLVT ROOT
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-base text-cream/80 sm:text-lg">
               Redefining High-End Hospitality. A private culinary society exploring

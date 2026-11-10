@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">The VLVT Root</title>
+  <g fill="none" stroke="#ca8080" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 112c46-36 99-54 160-54s114 18 160 54" stroke-width="3" opacity=".72"/>
+    <path d="M125 328c34 25 77 38 131 38s97-13 131-38" stroke-width="2" opacity=".65"/>
+    <path d="M256 354c0-23 7-39 23-52 12-10 26-14 40-11-4 14-14 27-30 35-13 6-24 16-33 28" stroke-width="3"/>
+    <path d="M283 323c-1-16 6-28 19-37 3 13-3 24-19 37Z" fill="#ca8080" stroke-width="1.5"/>
+    <path d="M256 354c0-15-7-27-20-35-11-6-22-8-33-4 4 13 13 23 26 29 11 4 20 8 27 10" stroke-width="3"/>
+    <path d="M233 322c1-14-5-24-16-32-3 12 3 22 16 32Z" fill="#ca8080" stroke-width="1.5"/>
+  </g>
+  <text x="256" y="250" fill="#ca8080" font-family="Georgia, 'Times New Roman', serif" font-size="128" text-anchor="middle">VLVT</text>
+  <text x="256" y="309" fill="#f5f1e9" font-family="Georgia, 'Times New Roman', serif" font-size="29" text-anchor="middle" letter-spacing="5">THE ROOT</text>
+  <path d="M170 390h172" stroke="#ca8080" stroke-width="1.5" opacity=".75"/>
+  <text x="256" y="426" fill="#ca8080" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" letter-spacing="4">PRIVATE CULINARY SOCIETY</text>
+</svg>

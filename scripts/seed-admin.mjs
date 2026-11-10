@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const adminEmail = process.env.ADMIN_EMAIL;
-const adminName = process.env.ADMIN_NAME ?? "Velvet Root Admin";
+const adminName = process.env.ADMIN_NAME ?? "The VLVT Root Admin";
 
 if (!supabaseUrl || !serviceRoleKey) {
   throw new Error(

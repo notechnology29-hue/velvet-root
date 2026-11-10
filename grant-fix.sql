@@ -6,5 +6,5 @@ grant all on public.settings to service_role;
 grant select, insert, update on public.profiles to authenticated;
 grant select, insert, update on public.settings to authenticated;
 
-grant select on public.profiles to anon;
+revoke select on public.profiles from anon;
 grant select on public.settings to anon;

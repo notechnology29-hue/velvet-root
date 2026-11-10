@@ -27,7 +27,7 @@ export default function ExperiencePage() {
             Culinary precision with a restorative rhythm.
           </h1>
           <p className="mt-5 text-base md:text-lg">
-            The Velvet Root balances immersive hospitality with a grounded service
+            The VLVT Root balances immersive hospitality with a grounded service
             model that keeps every course elegant, intentional, and welcoming.
           </p>
         </Reveal>
@@ -60,7 +60,7 @@ export default function ExperiencePage() {
             <div className="surface-card overflow-hidden">
               <Image
                 src="/brand/culinary-room.svg"
-                alt="The Velvet Root culinary salon artwork"
+                alt="The VLVT Root culinary salon artwork"
                 width={1200}
                 height={900}
                 className="h-full w-full object-cover"

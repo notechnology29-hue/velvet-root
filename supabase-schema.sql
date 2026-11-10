@@ -37,7 +37,8 @@ grant all on public.settings to service_role;
 grant select, insert, update on public.profiles to authenticated;
 grant select, insert, update on public.settings to authenticated;
 
-grant select on public.profiles to anon;
+-- Anonymous visitors never get table access to profiles (applicant data).
+revoke select on public.profiles from anon;
 grant select on public.settings to anon;
 
 alter table public.profiles enable row level security;
@@ -59,37 +60,46 @@ as $$
   );
 $$;
 
+drop policy if exists "Admins can manage all profiles" on public.profiles;
 create policy "Admins can manage all profiles"
 on public.profiles for all
 using (public.is_admin())
 with check (public.is_admin());
 
+drop policy if exists "Users can view own profile" on public.profiles;
 create policy "Users can view own profile"
 on public.profiles for select
 using (user_id = auth.uid());
 
+drop policy if exists "Admins can manage all settings" on public.settings;
 create policy "Admins can manage all settings"
 on public.settings for all
 using (public.is_admin())
 with check (public.is_admin());
 
+drop policy if exists "Public can read hero setting" on public.settings;
 create policy "Public can read hero setting"
 on public.settings for select
 using (key = 'hero_video_url');
 
 create or replace function public.set_updated_at()
-returns trigger as $$
+returns trigger
+language plpgsql
+set search_path = public
+as $$
 begin
   new.updated_at = now();
   return new;
 end;
-$$ language plpgsql;
+$$;
 
+drop trigger if exists set_profiles_updated_at on public.profiles;
 create trigger set_profiles_updated_at
 before update on public.profiles
 for each row
 execute procedure public.set_updated_at();
 
+drop trigger if exists set_settings_updated_at on public.settings;
 create trigger set_settings_updated_at
 before update on public.settings
 for each row
@@ -105,7 +115,7 @@ insert into public.profiles (
   role
 )
 values (
-  'Velvet Root Admin',
+  'The VLVT Root Admin',
   'admin@thevelvetroot.co',
   null,
   '@thevelvetroot',

@@ -19,10 +19,10 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://velvet-root.vercel.
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "The Velvet Root",
+  title: "The VLVT Root",
   description:
     "A private culinary society exploring the intersection of fine dining and botanical wellness.",
-  applicationName: "The Velvet Root"
+  applicationName: "The VLVT Root"
 };
 
 export const viewport: Viewport = {

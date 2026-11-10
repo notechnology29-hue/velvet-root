@@ -1,4 +1,4 @@
-# The Velvet Root
+# The VLVT Root
 
 Luxury hospitality site built with Next.js App Router, Tailwind CSS, Framer Motion, Supabase, and Stripe. Ready for Vercel deployment.
 
@@ -24,6 +24,18 @@ Add these in Vercel for every environment you plan to use:
 - `MEMBERSHIP_WEBHOOK_URL`
 - `ADMIN_EMAIL`
 - `ADMIN_NAME`
+- `ADMIN_PASSCODE`
+  - Passcode for `/admin/login`. Use a long random value.
+- `PORTAL_PASSWORD`
+  - Passcode for the member portal at `/portal`. Use a long random value.
+- `PITCH_SPONSORS_TOKEN`
+  - Access token for the link-only sponsor pitch page (`/p/sponsors/[token]`).
+- `PITCH_DISPENSARY_TOKEN`
+  - Access token for the link-only dispensary pitch page (`/p/dispensary/[token]`).
+
+Generate each pitch token with `openssl rand -hex 24`. Rotating a token revokes every link that used the old one.
+
+Never commit real values. `.env.example` holds placeholders only; real keys belong in Vercel environment variables and your local `.env.local`.
 
 Optional:
 
@@ -41,6 +53,8 @@ This creates:
 - `settings`
 - RLS policies
 - seeded admin profile row
+
+Then run [supabase/migrations/001_security_hardening.sql](./supabase/migrations/001_security_hardening.sql). It removes anonymous read access to `profiles`, pins the trigger function's `search_path`, and adds the `pitch_views` table. Both files are safe to run more than once. Never disable RLS on `profiles` or `settings`: signed-in users hold table grants and only the RLS policies limit writes to admins.
 
 ### 4. Seed or update the admin profile
 

@@ -25,13 +25,13 @@ export function SiteNavigation() {
             className="flex items-center gap-3 min-h-[44px] rounded-full px-3 py-1 font-serif text-lg tracking-[0.24em] text-cream transition hover:text-rose focus:outline-none focus:ring-2 focus:ring-rose/60"
           >
             <Image
-              src="/brand/velvet-root-logo.png"
-              alt="The Velvet Root Logo"
+              src="/brand/vlvt-root-monogram.svg"
+              alt="The VLVT Root monogram"
               width={36}
               height={36}
               className="h-9 w-9 object-contain rounded-lg border border-white/10"
             />
-            <span>THE VELVET ROOT</span>
+            <span>THE VLVT ROOT</span>
           </Link>
 
           <nav className="flex items-center gap-2">

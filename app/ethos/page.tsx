@@ -46,7 +46,7 @@ export default function EthosPage() {
             Building a private club with purpose beyond the plate.
           </h1>
           <p className="mt-5 text-base md:text-lg">
-            The Velvet Root is guided by hospitality operators who believe premium
+            The VLVT Root is guided by hospitality operators who believe premium
             experiences should also create mobility, mentorship, and sustainable
             opportunity.
           </p>
@@ -86,7 +86,7 @@ export default function EthosPage() {
           <Reveal className="surface-card overflow-hidden" delay={0.08}>
             <Image
               src="/brand/ethos-studio.svg"
-              alt="The Velvet Root workforce development artwork"
+              alt="The VLVT Root workforce development artwork"
               width={1200}
               height={900}
               className="h-full w-full object-cover"

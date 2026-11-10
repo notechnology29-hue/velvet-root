@@ -240,8 +240,8 @@ export default function PortalPage({ searchParams }: PortalPageProps) {
       <div className="section-shell flex min-h-[100dvh] items-center justify-center">
         <div className="surface-card w-full max-w-md p-6 sm:p-8 text-center">
           <Image
-            src="/brand/velvet-root-logo.png"
-            alt="The Velvet Root logo"
+            src="/brand/vlvt-root-logo.svg"
+            alt="The VLVT Root logo"
             width={80}
             height={80}
             className="mx-auto mb-4 h-20 w-20 object-contain rounded-2xl border border-white/10 shadow-glow bg-black/40 p-1"
@@ -442,7 +442,7 @@ export default function PortalPage({ searchParams }: PortalPageProps) {
           <Reveal className="surface-card overflow-hidden" delay={0.08}>
             <Image
               src="/brand/hero-poster.svg"
-              alt="The Velvet Root branded event artwork"
+              alt="The VLVT Root branded event artwork"
               width={1600}
               height={900}
               className="h-full w-full object-cover"
@@ -470,7 +470,7 @@ export default function PortalPage({ searchParams }: PortalPageProps) {
         <Reveal className="mt-8 space-y-4">
           {[
             "Visit Tier 1 Dispensary Sponsor no later than 48 hours before the event.",
-            'Request the "15mg Pairing Kit" prepared for The Velvet Root assessment experience.',
+            'Request the "15mg Pairing Kit" prepared for The VLVT Root assessment experience.',
             "Confirm your rideshare plan before departure and arrive with your RSVP confirmation ready for check-in.",
             "Store the kit securely and wait for on-site service guidance before beginning the pairing progression."
           ].map((step, index) => (
