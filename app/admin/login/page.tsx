@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
             }}
             className={`flex-1 rounded-xl py-2.5 text-xs font-semibold uppercase tracking-[0.2em] transition ${
               mode === "passcode"
-                ? "bg-rose text-obsidian shadow-glow"
+                ? "bg-gold text-obsidian shadow-glow"
                 : "text-cream/60 hover:text-cream"
             }`}
           >
@@ -133,7 +133,7 @@ export default function AdminLoginPage() {
             }}
             className={`flex-1 rounded-xl py-2.5 text-xs font-semibold uppercase tracking-[0.2em] transition ${
               mode === "magic-link"
-                ? "bg-rose text-obsidian shadow-glow"
+                ? "bg-gold text-obsidian shadow-glow"
                 : "text-cream/60 hover:text-cream"
             }`}
           >

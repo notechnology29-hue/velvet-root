@@ -56,6 +56,23 @@ This creates:
 
 Then run [supabase/migrations/001_security_hardening.sql](./supabase/migrations/001_security_hardening.sql). It removes anonymous read access to `profiles`, pins the trigger function's `search_path`, and adds the `pitch_views` table. Both files are safe to run more than once. Never disable RLS on `profiles` or `settings`: signed-in users hold table grants and only the RLS policies limit writes to admins.
 
+Also run the other files in [supabase/migrations](./supabase/migrations) in order (`002`, `003`).
+
+### Pitch page content
+
+The copy for the link-only pitch pages is not in this repository. It lives in the `pitch_content` table (migration `003`) and in a gitignored `private/pitch/` folder on the owner's machine.
+
+To change it: edit `private/pitch/build.mjs`, then run
+
+```bash
+node private/pitch/build.mjs
+node --env-file=.env.local scripts/seed-pitch-content.mjs
+```
+
+The live pages read from the database, so the change shows at once with no redeploy. To preview before uploading, start the site with `PITCH_CONTENT_SOURCE=local`.
+
+Sections that are not yet cleared to show stay hidden until their variable is set to `true`: `SHOW_HEADLINE_DJ`, `SHOW_PITCH_OPERATIONS`, `SHOW_COMMUNITY_PROGRAM`.
+
 ### 4. Seed or update the admin profile
 
 After env vars are set, run:

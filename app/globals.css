@@ -13,20 +13,26 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top, rgba(183, 110, 121, 0.14), transparent 34%),
-    linear-gradient(180deg, rgba(44, 76, 59, 0.08), transparent 42%),
-    #121212;
-  color: #f5f5f0;
+    radial-gradient(circle at top, rgba(183, 110, 121, 0.1), transparent 34%),
+    linear-gradient(180deg, rgba(44, 76, 59, 0.14), transparent 42%),
+    #0e1411;
+  color: #f6f4ef;
 }
 
 ::selection {
-  background: rgba(183, 110, 121, 0.28);
-  color: #f5f5f0;
+  background: rgba(212, 175, 106, 0.3);
+  color: #f6f4ef;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 @layer base {
   * {
-    @apply border-neutral-800;
+    @apply border-line;
   }
 
   body {
@@ -39,7 +45,8 @@ body {
   h4,
   h5,
   h6 {
-    @apply font-serif tracking-[0.18em] text-cream;
+    @apply font-serif font-medium tracking-[0.01em] text-cream;
+    text-wrap: balance;
   }
 
   p {
@@ -55,7 +62,7 @@ body {
 
 @layer components {
   .surface-card {
-    @apply rounded-[28px] border border-white/10 bg-white/[0.03] backdrop-blur-sm;
+    @apply rounded-[28px] border border-line bg-velvet/80 backdrop-blur-sm;
   }
 
   .section-shell {
@@ -63,15 +70,23 @@ body {
   }
 
   .eyebrow {
-    @apply text-xs uppercase tracking-[0.35em] text-rose/85;
+    @apply text-xs font-medium uppercase tracking-[0.32em] text-gold;
   }
 
   .button-outline {
-    @apply inline-flex min-h-[44px] items-center justify-center rounded-full border border-rose/60 px-6 py-3 text-sm uppercase tracking-[0.28em] text-cream transition hover:border-rose hover:bg-rose/10 focus:outline-none focus:ring-2 focus:ring-rose/60 focus:ring-offset-2 focus:ring-offset-obsidian;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-full border border-gold/60 px-6 py-3 text-sm uppercase tracking-[0.24em] text-cream transition hover:border-gold hover:bg-gold/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian;
   }
 
   .button-solid {
-    @apply inline-flex min-h-[44px] items-center justify-center rounded-full bg-rose px-6 py-3 text-sm uppercase tracking-[0.28em] text-obsidian transition hover:bg-[#ca8690] focus:outline-none focus:ring-2 focus:ring-rose/70 focus:ring-offset-2 focus:ring-offset-obsidian;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold uppercase tracking-[0.24em] text-obsidian transition hover:bg-gold-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian;
+  }
+
+  .field-label {
+    @apply text-xs uppercase tracking-[0.22em] text-sage;
+  }
+
+  .field-input {
+    @apply min-h-[52px] w-full rounded-2xl border border-line bg-obsidian/60 px-4 text-base text-cream outline-none transition placeholder:text-sage/70 focus:border-gold/70 focus:ring-2 focus:ring-gold/40;
   }
 }
 
@@ -81,7 +96,7 @@ body {
   }
 
   .mask-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(183, 110, 121, 0.4);
+    background: rgba(212, 175, 106, 0.4);
     border-radius: 999px;
   }
 }

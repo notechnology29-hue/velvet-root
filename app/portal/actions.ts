@@ -1,149 +1,26 @@
 "use server";
 
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-
-import { getSiteUrl } from "@/lib/site-url";
-import { getStripeClient } from "@/lib/stripe";
-
-const MEMBER_COOKIE_NAME = "vr_member_session";
-const DEFAULT_PASSCODE = "velvet2026";
-
-function getExpectedPasscode() {
-  const custom = process.env.MEMBER_PASSCODE;
-  if (custom) return custom;
-  const portalPass = process.env.PORTAL_PASSWORD;
-  if (portalPass && portalPass !== "change-me-before-launch") return portalPass;
-  const adminPass = process.env.ADMIN_PASSCODE;
-  if (adminPass) return adminPass;
-  return DEFAULT_PASSCODE;
-}
+import { allowRequest } from "@/lib/rate-limit";
+import { endSession, isLoginConfigured, startSession, verifyPasscode } from "@/lib/session";
 
 export async function loginMemberWithPasscode(passcode: string) {
-  const expected = getExpectedPasscode();
-  const trimmed = passcode ? passcode.trim() : "";
-
-  if (!trimmed || (trimmed !== expected && trimmed !== DEFAULT_PASSCODE && trimmed !== "change-me-before-launch")) {
-    return { error: "Invalid member passcode." };
+  if (!isLoginConfigured("member")) {
+    return { error: "Portal access is not open yet." };
   }
 
-  const cookieStore = cookies();
-  cookieStore.set(MEMBER_COOKIE_NAME, "authenticated", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-    path: "/"
-  });
+  if (!allowRequest("portal-login", 8, 15 * 60 * 1000)) {
+    return { error: "Too many attempts. Try again in a few minutes." };
+  }
 
+  if (typeof passcode !== "string" || !verifyPasscode("member", passcode)) {
+    return { error: "That passcode is not right." };
+  }
+
+  startSession("member");
   return { success: true };
-}
-
-export async function checkMemberSession() {
-  const cookieStore = cookies();
-  const sessionCookie = cookieStore.get(MEMBER_COOKIE_NAME);
-  return sessionCookie?.value === "authenticated";
 }
 
 export async function memberSignOut() {
-  const cookieStore = cookies();
-  cookieStore.delete(MEMBER_COOKIE_NAME);
-  cookieStore.delete("vr_member_waiver_signed");
+  endSession("member");
   return { success: true };
-}
-
-export async function checkWaiverSigned() {
-  const cookieStore = cookies();
-  const waiverCookie = cookieStore.get("vr_member_waiver_signed");
-  return waiverCookie?.value === "signed";
-}
-
-export async function signMemberWaiver(formData: FormData) {
-  const typedName = String(formData.get("typedName") ?? "").trim();
-  const signatureDate = String(formData.get("signatureDate") ?? "").trim();
-
-  if (!typedName || !signatureDate) {
-    redirect("/portal/waiver?status=missing");
-  }
-
-  const cookieStore = cookies();
-  // Ensure member is authenticated when signing
-  cookieStore.set(MEMBER_COOKIE_NAME, "authenticated", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7,
-    path: "/"
-  });
-
-  cookieStore.set("vr_member_waiver_signed", "signed", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 30, // 30 days
-    path: "/"
-  });
-
-  redirect("/portal?waiver=completed");
-}
-
-export async function beginRsvpCheckout(formData: FormData) {
-  const fullName = formData.get("fullName");
-  const email = formData.get("email");
-  const phone = formData.get("phone");
-
-  if (
-    typeof fullName !== "string" ||
-    fullName.trim().length === 0 ||
-    typeof email !== "string" ||
-    email.trim().length === 0 ||
-    typeof phone !== "string" ||
-    phone.trim().length === 0
-  ) {
-    redirect("/portal?checkout=missing");
-  }
-
-  const stripe = getStripeClient();
-  const siteUrl = getSiteUrl();
-  const session = await stripe.checkout.sessions.create({
-    mode: "payment",
-    success_url: `${siteUrl}/portal?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${siteUrl}/portal?checkout=cancel`,
-    customer_email: email,
-    phone_number_collection: {
-      enabled: true
-    },
-    billing_address_collection: "auto",
-    submit_type: "book",
-    line_items: [
-      {
-        quantity: 1,
-        price_data: {
-          currency: "usd",
-          unit_amount: 25000,
-          product_data: {
-            name: "Smoke & Blush October Assessment",
-            description: "Single-seat RSVP for The VLVT Root member portal event."
-          }
-        }
-      }
-    ],
-    metadata: {
-      eventName: "Smoke & Blush October Assessment",
-      fullName,
-      phone
-    },
-    custom_text: {
-      submit: {
-        message:
-          "Your seat will be confirmed immediately after successful payment."
-      }
-    }
-  });
-
-  if (!session.url) {
-    throw new Error("Stripe Checkout did not return a redirect URL.");
-  }
-
-  redirect(session.url);
 }

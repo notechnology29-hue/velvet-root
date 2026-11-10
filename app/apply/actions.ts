@@ -2,90 +2,66 @@
 
 import { redirect } from "next/navigation";
 
+import { allowRequest } from "@/lib/rate-limit";
 import { createSupabaseServerClient } from "@/lib/supabase";
 
-const requiredFields = [
-  "name",
-  "dob",
-  "email",
-  "phone",
-  "draw",
-  "community",
-  "allergies",
-  "cert_age",
-  "cert_byoc",
-  "cert_alcohol_free",
-  "cert_no_drive",
-  "cert_confidentiality"
-] as const;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-export async function submitMembershipApplication(formData: FormData) {
-  const missingField = requiredFields.find((field) => {
-    const value = formData.get(field);
-    return typeof value !== "string" || value.trim().length === 0;
-  });
+function field(formData: FormData, name: string, maxLength: number) {
+  const value = formData.get(name);
+  return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+}
 
-  if (missingField) {
+export async function joinGuestList(formData: FormData) {
+  // Honeypot: real visitors never see or fill this field.
+  if (field(formData, "company", 200)) {
+    redirect("/apply?status=success");
+  }
+
+  if (!allowRequest("guest-list", 5, 10 * 60 * 1000)) {
+    redirect("/apply?status=slow");
+  }
+
+  const name = field(formData, "name", 120);
+  const email = field(formData, "email", 200).toLowerCase();
+  const phone = field(formData, "phone", 40);
+  const city = field(formData, "city", 120);
+  const heard = field(formData, "heard", 300);
+  const isAdult = formData.get("cert_age") === "on";
+
+  if (name.length < 2 || !EMAIL_PATTERN.test(email) || !city || !isAdult) {
     redirect("/apply?status=missing");
   }
 
-  const name = String(formData.get("name") ?? "").trim();
-  const dob = String(formData.get("dob") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim().toLowerCase();
-  const phone = String(formData.get("phone") ?? "").trim();
-  const socialHandle = String(formData.get("social") ?? "").trim();
-  const draw = String(formData.get("draw") ?? "").trim();
-  const community = String(formData.get("community") ?? "").trim();
-  const allergies = String(formData.get("allergies") ?? "").trim();
-
-  const certifications = {
-    age: formData.get("cert_age") === "on",
-    byoc: formData.get("cert_byoc") === "on",
-    alcoholFree: formData.get("cert_alcohol_free") === "on",
-    noDrive: formData.get("cert_no_drive") === "on",
-    confidentiality: formData.get("cert_confidentiality") === "on"
-  };
-
-  const payload = {
-    submittedAt: new Date().toISOString(),
-    name,
-    dob,
-    email,
-    phone,
-    social: socialHandle,
-    draw,
-    community,
-    allergies,
-    certifications
-  };
-
   const supabase = createSupabaseServerClient();
 
-  if (supabase) {
-    const { error: profileError } = await supabase.from("profiles").upsert(
-      {
-        email,
-        name,
-        phone,
-        social_handle: socialHandle || null,
-        vetting_answers: {
-          dob,
-          draw,
-          community,
-          allergies,
-          certifications
-        },
-        status: "pending",
-        role: "member"
-      },
-      {
-        onConflict: "email"
-      }
-    );
+  if (!supabase) {
+    console.error("Guest list sign-up could not be saved: Supabase is not configured.");
+    redirect("/apply?status=error");
+  }
 
-    if (profileError) {
-      console.error("Unable to save membership application to Supabase:", profileError.message);
-    }
+  // Insert only. An existing profile with this email is left untouched, so a
+  // sign-up can never overwrite or downgrade a profile that already exists.
+  const { error } = await supabase.from("profiles").upsert(
+    {
+      email,
+      name,
+      phone: phone || null,
+      vetting_answers: {
+        source: "guest-list",
+        city,
+        heard,
+        age_confirmed: true
+      },
+      status: "pending",
+      role: "member"
+    },
+    { onConflict: "email", ignoreDuplicates: true }
+  );
+
+  if (error) {
+    console.error("Guest list sign-up could not be saved:", error.message);
+    redirect("/apply?status=error");
   }
 
   const webhookUrl = process.env.MEMBERSHIP_WEBHOOK_URL;
@@ -94,14 +70,20 @@ export async function submitMembershipApplication(formData: FormData) {
     try {
       await fetch(webhookUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "guest-list",
+          submittedAt: new Date().toISOString(),
+          name,
+          email,
+          phone,
+          city,
+          heard
+        }),
         cache: "no-store"
       });
     } catch (err) {
-      console.error("Webhook notification error:", err);
+      console.error("Guest list webhook error:", err);
     }
   }
 

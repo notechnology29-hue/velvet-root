@@ -1,18 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 
-import { SiteNavigation } from "@/components/site-navigation";
+import { SiteChrome } from "@/components/site-chrome";
 
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-inter"
+  variable: "--font-inter",
+  display: "swap"
 });
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-playfair"
+  weight: ["400", "500", "600"],
+  variable: "--font-cormorant",
+  display: "swap"
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://velvet-root.vercel.app";
@@ -21,12 +24,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "The VLVT Root",
   description:
-    "A private culinary society exploring the intersection of fine dining and botanical wellness.",
+    "Private culinary evenings in the Arizona desert: four-course tasting menus, zero-proof pairings and a lounge built for lingering.",
   applicationName: "The VLVT Root"
 };
 
 export const viewport: Viewport = {
-  themeColor: "#121212"
+  themeColor: "#0E1411"
 };
 
 export default function RootLayout({
@@ -35,12 +38,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} ${playfair.variable} bg-obsidian text-cream`}
-      >
-        <SiteNavigation />
-        <main className="min-h-screen pb-24 md:pb-0 md:pt-20">{children}</main>
+    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
+      <body className="bg-obsidian text-cream">
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

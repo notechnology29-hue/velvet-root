@@ -10,11 +10,11 @@ const FALLBACK_HERO_VIDEO_URL = "/brand/velvet-root-hero.mp4.mp4";
 
 export default async function HomePage() {
   const heroVideoUrl = await getHeroVideoUrl();
-  const activeHeroVideoUrl = heroVideoUrl ?? FALLBACK_HERO_VIDEO_URL;
+  const activeHeroVideoUrl = heroVideoUrl || FALLBACK_HERO_VIDEO_URL;
 
   return (
     <div className="relative overflow-hidden">
-      <section className="relative flex min-h-[100dvh] items-center">
+      <section className="relative flex min-h-[100dvh] items-center md:min-h-[calc(100dvh-5rem)]">
         <div className="absolute inset-0 overflow-hidden">
           <video
             autoPlay
@@ -23,57 +23,97 @@ export default async function HomePage() {
             playsInline
             preload="auto"
             poster="/brand/hero-video-poster.svg"
+            aria-hidden="true"
             className="absolute inset-0 h-full w-full object-cover opacity-60"
             src={activeHeroVideoUrl}
           />
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22 viewBox=%220 0 40 40%22%3E%3Cpath fill=%22none%22 stroke=%22rgba(245,245,240,0.05)%22 stroke-width=%221%22 d=%22M0 20h40M20 0v40%22/%3E%3C/svg%3E')] opacity-20" />
           <div className="absolute inset-0 bg-velvet-gradient" />
-          <div className="absolute inset-0 bg-black/55" />
+          <div className="absolute inset-0 bg-obsidian/60" />
         </div>
 
         <div className="section-shell relative z-10 flex flex-col items-center justify-center text-center">
           <Reveal className="max-w-3xl">
             <Image
               src="/brand/vlvt-root-logo.svg"
-              alt="The VLVT Root logo"
+              alt=""
               width={200}
               height={200}
-              className="mx-auto mb-6 h-36 w-36 sm:h-44 sm:w-44 object-contain rounded-3xl border border-white/10 shadow-glow bg-black/40 p-2 backdrop-blur-sm"
+              className="mx-auto mb-6 h-32 w-32 rounded-3xl border border-line bg-obsidian/50 object-contain p-2 shadow-glow backdrop-blur-sm sm:h-40 sm:w-40"
               priority
             />
-            <p className="eyebrow">Private Culinary Society</p>
-            <h1 className="mt-5 text-4xl leading-none text-cream sm:text-5xl md:text-7xl">
-              THE VLVT ROOT
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-base text-cream/80 sm:text-lg">
-              Redefining High-End Hospitality. A private culinary society exploring
-              the intersection of fine dining and botanical wellness.
+            <p className="eyebrow">Phoenix · Scottsdale</p>
+            <h1 className="mt-5 text-5xl leading-none sm:text-6xl md:text-8xl">The VLVT Root</h1>
+            <p className="mx-auto mt-6 max-w-2xl font-serif text-2xl text-gold-soft sm:text-3xl">
+              Private culinary evenings in the Arizona desert.
+            </p>
+            <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg">
+              Four-course tasting menus, zero-proof pairings and a lounge built for lingering,
+              inspired by Arizona&apos;s cannabis culture.
             </p>
           </Reveal>
 
-          <Reveal className="mt-10 w-full max-w-sm" delay={0.15}>
-            <Link href="/apply" className="button-outline w-full min-h-[52px]">
-              Apply for Membership
+          <Reveal className="mt-10 flex w-full max-w-md flex-col gap-3 sm:flex-row" delay={0.15}>
+            <Link href="/apply" className="button-solid min-h-[52px] flex-1">
+              Join the guest list
+            </Link>
+            <Link href="/experience" className="button-outline min-h-[52px] flex-1">
+              The experience
             </Link>
           </Reveal>
         </div>
       </section>
 
+      <section className="section-shell">
+        <div className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
+          <Reveal>
+            <p className="eyebrow">February 2027</p>
+            <h2 className="mt-4 text-4xl md:text-5xl">The Velvetyn Gala</h2>
+            <p className="mt-5 text-base md:text-lg">
+              Our flagship evening arrives during Phoenix&apos;s biggest basketball weekend,
+              February 2027. Two dinner seatings, a vendor village and a headline DJ to be
+              announced. Details go first to the guest list.
+            </p>
+            <Link href="/apply" className="button-outline mt-8">
+              Join the guest list
+            </Link>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] border border-line">
+              <Image
+                src="/images/pitch/dinner.webp"
+                alt="A candlelit long table set for dinner in the desert at dusk"
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       <section className="section-shell pt-0">
-        <Reveal className="surface-card grid gap-6 p-6 md:grid-cols-3 md:p-8">
-          <div>
-            <p className="eyebrow">By Invitation</p>
-            <h2 className="mt-3 text-2xl md:text-3xl">Quietly intentional.</h2>
-          </div>
-          <p className="text-sm md:text-base">
-            Every evening is designed for intimate scale, elevated service, and a
-            calm atmosphere where conversation and cuisine take center stage.
-          </p>
-          <p className="text-sm md:text-base">
-            Explore the public experience, learn the mission, and request access
-            through a membership pathway built for thoughtful alignment.
-          </p>
-        </Reveal>
+        <div className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
+          <Reveal className="md:order-2">
+            <p className="eyebrow">This winter</p>
+            <h2 className="mt-4 text-4xl md:text-5xl">Pop-up dinners</h2>
+            <p className="mt-5 text-base md:text-lg">
+              Small dinners this winter, ahead of the gala. Limited seats; guest list first.
+            </p>
+          </Reveal>
+
+          <Reveal className="md:order-1" delay={0.1}>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] border border-line">
+              <Image
+                src="/images/pitch/tables.webp"
+                alt="Dinner tables dressed with candles and glassware"
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+        </div>
       </section>
     </div>
   );

@@ -9,9 +9,9 @@ export function ApplicationSubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="button-solid w-full min-h-[56px] rounded-2xl text-center disabled:cursor-not-allowed disabled:opacity-70"
+      className="button-solid min-h-[56px] w-full disabled:cursor-not-allowed disabled:opacity-70"
     >
-      {pending ? "Submitting..." : "Submit Membership Request"}
+      {pending ? "Adding you…" : "Join the guest list"}
     </button>
   );
 }

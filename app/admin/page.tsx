@@ -58,6 +58,8 @@ function getProfileSearchBlob(profile: AppProfile) {
     profile.email,
     profile.phone ?? "",
     profile.social_handle ?? "",
+    String(profile.vetting_answers.city ?? ""),
+    String(profile.vetting_answers.heard ?? ""),
     String(profile.vetting_answers.draw ?? ""),
     String(profile.vetting_answers.community ?? "")
   ]
@@ -551,9 +553,9 @@ export default function AdminPage() {
       <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="eyebrow">Admin Panel</p>
-          <h1 className="mt-3 text-3xl md:text-4xl">Membership operations</h1>
+          <h1 className="mt-3 text-3xl md:text-4xl">Guest list operations</h1>
           <p className="mt-4 max-w-2xl text-sm md:text-base">
-            Review applicants, batch-update statuses, and manage approved or active
+            Review sign-ups, batch-update statuses, and manage approved or active
             members from a mobile-first control surface.
           </p>
         </div>
@@ -636,7 +638,7 @@ export default function AdminPage() {
               <div className="grid gap-4">
                 <label className="space-y-2">
                   <span className="text-sm uppercase tracking-[0.24em] text-cream/70">
-                    Search applicants
+                    Search sign-ups
                   </span>
                   <input
                     type="text"
@@ -714,7 +716,7 @@ export default function AdminPage() {
 
             <div className="surface-card overflow-hidden">
               <div className="border-b border-white/10 px-4 py-4">
-                <p className="eyebrow">Applicant queue</p>
+                <p className="eyebrow">Sign-up queue</p>
                 <p className="mt-2 text-sm text-cream/70">
                   Page {applicationPage} of {applicationPageCount}
                 </p>
@@ -723,7 +725,7 @@ export default function AdminPage() {
               <div className="max-h-[70dvh] overflow-y-auto">
                 {paginatedApplications.length === 0 ? (
                   <div className="px-4 py-8 text-center text-sm text-cream/70">
-                    No applicants match the current filters.
+                    No sign-ups match the current filters.
                   </div>
                 ) : (
                   paginatedApplications.map((currentProfile) => {
@@ -795,7 +797,7 @@ export default function AdminPage() {
                   Previous
                 </button>
                 <p className="text-sm text-cream/70">
-                  {filteredApplications.length} total applicants
+                  {filteredApplications.length} total sign-ups
                 </p>
                 <button
                   type="button"
@@ -814,7 +816,7 @@ export default function AdminPage() {
               <>
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <p className="eyebrow">Applicant Detail</p>
+                    <p className="eyebrow">Sign-up detail</p>
                     <h2 className="mt-3 text-2xl">{selectedApplication.name}</h2>
                   </div>
                   <span
@@ -850,30 +852,27 @@ export default function AdminPage() {
                 </div>
 
                 <div className="mt-6 space-y-4 rounded-[24px] border border-white/10 bg-white/[0.02] p-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.22em] text-rose/80">
-                      What draws you to the experience?
-                    </p>
-                    <p className="mt-2 text-sm text-cream/82">
-                      {String(selectedApplication.vetting_answers.draw ?? "—")}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.22em] text-rose/80">
-                      Community alignment
-                    </p>
-                    <p className="mt-2 text-sm text-cream/82">
-                      {String(selectedApplication.vetting_answers.community ?? "—")}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.22em] text-rose/80">
-                      Birth date
-                    </p>
-                    <p className="mt-2 text-sm text-cream/82">
-                      {String(selectedApplication.vetting_answers.dob ?? "—")}
-                    </p>
-                  </div>
+                  {(
+                    [
+                      ["City", "city"],
+                      ["How they heard about us", "heard"],
+                      ["Earlier application: what draws you", "draw"],
+                      ["Earlier application: community", "community"],
+                      ["Earlier application: birth date", "dob"]
+                    ] as const
+                  )
+                    .filter(([, key]) => selectedApplication.vetting_answers[key])
+                    .map(([label, key]) => (
+                      <div key={key}>
+                        <p className="text-xs uppercase tracking-[0.22em] text-sage">{label}</p>
+                        <p className="mt-2 text-sm text-cream/82">
+                          {String(selectedApplication.vetting_answers[key])}
+                        </p>
+                      </div>
+                    ))}
+                  {selectedApplication.vetting_answers.age_confirmed ? (
+                    <p className="text-sm text-cream/82">Confirmed 21 or older.</p>
+                  ) : null}
                 </div>
 
                 <div className="mt-6 grid gap-3">
@@ -905,7 +904,7 @@ export default function AdminPage() {
               </>
             ) : (
               <div className="flex min-h-[320px] items-center justify-center text-center text-cream/70">
-                Select an applicant to review details and update status.
+                Select a sign-up to review details and update status.
               </div>
             )}
           </div>
