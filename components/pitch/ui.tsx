@@ -44,7 +44,14 @@ export function Photo({
 }) {
   return (
     <div className={`relative overflow-hidden ${ratio}`}>
-      <Image src={`${IMAGE_BASE}/${name}.webp`} alt={alt} fill sizes={sizes} className="object-cover" />
+      <Image
+        src={`${IMAGE_BASE}/${name}.webp`}
+        alt={alt}
+        fill
+        sizes={sizes}
+        quality={90}
+        className="object-cover"
+      />
     </div>
   );
 }

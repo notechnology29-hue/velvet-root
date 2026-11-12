@@ -196,6 +196,7 @@ function Hero({ section }: { section: Extract<PitchSection, { type: "hero" }> })
         fill
         priority
         sizes="100vw"
+        quality={90}
         className="object-cover object-right"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/70 to-obsidian/20 md:bg-gradient-to-r md:from-obsidian md:via-obsidian/80 md:to-transparent" />
@@ -255,6 +256,7 @@ function Contact({ section }: { section: Extract<PitchSection, { type: "contact"
             alt=""
             fill
             sizes="(min-width: 768px) 30vw, 80vw"
+            quality={90}
             className="object-contain"
           />
         </div>
